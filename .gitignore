@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Hide redundant readme files and other trivial information
+.readmes
