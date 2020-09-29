@@ -73,12 +73,16 @@ self.addEventListener("fetch", (e)=> {
   } 
     // respond from static cache, request is not for /api/*
     e.respondWith(
-      caches.open(CACHE_NAME).then(cache => {
-        return cache.match(e.request).then(response => {
-          return response || fetch(e.request);
-        });
-      })
-    );
-  
+      fetch(e.request).catch(()=>{
+        return caches.match(e.request).then((response)=> {
+          if(response){
+            return response;
+          }
+          else if(e.request.headers.get("accept").includes("text/html")){
+            return caches.match("/");
+          }
+      });
+    })
+    )
 });
 
