@@ -13,8 +13,11 @@ app.use(express.json());
 
 app.use(logger("dev"));
 
-mongoose.connect("mongodb://localhost/budget", {
-  useNewUrlParser: true
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/peaceful-dusk-63294", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false
 });
 
 // routes
