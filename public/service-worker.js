@@ -1,6 +1,7 @@
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
+  "index.js",
   "/styles.css",
   "/manifest.webmanifest",
   "/favicon.ico",
@@ -49,15 +50,14 @@ self.addEventListener("activate", (e)=> {
 
 // fetch
 self.addEventListener("fetch", (e)=> {
-  const { url } = e.request;
-  if (url.includes("/api")) {
+  if (e.request.url.includes("/api/")) {
     e.respondWith(
       caches.open(DATA_CACHE_NAME).then(cache => {
         return fetch(e.request)
           .then(response => {
             // If the response was good, clone it and store it in the cache.
             if (response.status === 200) {
-              cache.put(e.request, response.clone());
+              cache.put(e.request.url, response.clone());
             }
 
             return response;
@@ -71,7 +71,7 @@ self.addEventListener("fetch", (e)=> {
 
     return;
 
-  } else {
+  } 
     // respond from static cache, request is not for /api/*
     e.respondWith(
       caches.open(CACHE_NAME).then(cache => {
@@ -80,6 +80,6 @@ self.addEventListener("fetch", (e)=> {
         });
       })
     );
-  }
+  
 });
 
