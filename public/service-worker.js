@@ -24,20 +24,21 @@ self.addEventListener("install", (e)=> {
       console.log("Your files were pre-cached successfully!");
       return cache.addAll(FILES_TO_CACHE);
     })
+    .then(() => self.skipWaiting())
   );
 
   self.skipWaiting();
 });
 
 
-self.addEventListener("activate", (e)=> {
+self.addEventListener("activate", (e)=> {  //remove unwanted caches.
   e.waitUntil(
-    caches.keys().then(keyList => {
+    caches.keys().then(cacheNames => {
       return Promise.all(
-        keyList.map(key => {
-          if (key !== CACHE_NAME && key !== DATA_CACHE_NAME) {
+        cacheNames.map(cache => {
+          if (cache !== CACHE_NAME && cache !== DATA_CACHE_NAME) {
             console.log("Removing old cache data", key);
-            return caches.delete(key);
+            return caches.delete(cache);
           }
         })
       );
