@@ -50,7 +50,7 @@ self.addEventListener("activate", (e) => {  //remove unwanted caches.
 
 // fetch
 self.addEventListener("fetch", (e) => {
-  if (e.request.url.includes("/api/")) {
+  if (e.request.url.includes("/api/")) {//test
     e.respondWith(
       caches.open(DATA_CACHE_NAME).then(cache => {
         return fetch(e.request)
