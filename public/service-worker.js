@@ -45,7 +45,7 @@ self.addEventListener("activate", (e) => {  //remove unwanted caches.
     })
   
 
-  self.clients.claim();
+  self.clients.claim();  //The claim() method allows an active service worker to set itself as the controller for all clients within its scope.
 });
 
 // fetch
