@@ -31,7 +31,7 @@ self.addEventListener("install", (e)=> {
 });
 
 
-self.addEventListener("activate", (e)=> {  //remove unwanted caches.
+self.addEventListener("activate", (e) => {  //remove unwanted caches.
   e.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
@@ -49,7 +49,7 @@ self.addEventListener("activate", (e)=> {  //remove unwanted caches.
 });
 
 // fetch
-self.addEventListener("fetch", (e)=> {
+self.addEventListener("fetch", (e) => {
   if (e.request.url.includes("/api/")) {
     e.respondWith(
       caches.open(DATA_CACHE_NAME).then(cache => {
@@ -71,19 +71,21 @@ self.addEventListener("fetch", (e)=> {
 
     return;
 
-  } 
-    // respond from static cache, request is not for /api/*
-    e.respondWith(
-      fetch(e.request).catch(()=>{
-        return caches.match(e.request).then((response)=> {
-          if(response){
-            return response;
-          }
-          else if(e.request.headers.get("accept").includes("text/html")){
-            return caches.match("/");
-          }
+  }
+  // respond from static cache, request is not for /api/*
+  e.respondWith(
+    fetch(e.request).catch(() => {
+      return caches.match(e.request).then((response) => {
+        if (response) {
+          return response;
+        }
+        else if (e.request.headers.get("accept").includes("text/html")) {
+          return caches.match("/");
+        }
       });
     })
-    )
+  )
 });
+
+
 
