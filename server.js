@@ -1,7 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
-const compression = require("compression");
+const compression = require("compression"); 
 
 const app = express();
 var PORT = process.env.PORT || 3000;
@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(logger("dev"));
-
+//connect to mongodb if no connection exists try to connect locally.
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/peaceful-dusk-63294", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -24,5 +24,5 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/peaceful-dusk-6
 app.use(require("./routes/api.js"));
 
 app.listen(PORT, () => {
-  console.log(`App running on port ${PORT}!`);
+  console.log(`App running on port ${PORT}!`); //let us know what port we are using. 
 });

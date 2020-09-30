@@ -32,7 +32,7 @@ self.addEventListener("install", (e) => {
 
 
 self.addEventListener("activate", (e) => {  //remove unwanted caches.
-  e.waitUntil(
+  // e.waitUntil(                                        /Promises passed into waitUntil() will block other events until completion
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cache => {
@@ -43,7 +43,7 @@ self.addEventListener("activate", (e) => {  //remove unwanted caches.
         })
       );
     })
-  );
+  
 
   self.clients.claim();
 });
